@@ -905,7 +905,7 @@
 /* Extra Small (480px and below) */
 @media (max-width: 480px) {
   .container-3 {
-    padding: 25px 14px;
+    padding: 65px 14px;
   }
 
   /* Smallest two-line grid layout */
