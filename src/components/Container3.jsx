@@ -27,7 +27,7 @@ const Container3 = () => {
   const trendingVideos = [
     { 
       id: 1, 
-      video: "https://res.cloudinary.com/djaigfxun/video/upload/v1769851253/short_video_1_ltvoj7.mp4"
+      video: "https://res.cloudinary.com/djaigfxun/video/upload/v1769893311/short_video_1_1_x4qkzy.mp4"
     },
     { 
       id: 2, 
