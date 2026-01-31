@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Twitter, Linkedin, Youtube, Instagram, Mail } from 'lucide-react';
-import playverseLogo from '../assets/playverse_logo.png';
 import '../styles/PlayverseFooter.css';
 
 const PlayverseFooter = () => {
+  const playverseLogo = '../assets/playverse_logo.png';
   const [particles, setParticles] = useState([]);
 
   useEffect(() => {

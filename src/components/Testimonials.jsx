@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 // Import avatar images
-import avatar_yash from '../assets/avatar_yash.jpg';  
-import avatar_sarah from '../assets/avatar_sarah.jpg';
-import avatar_alex from '../assets/avatar_alex.jpg';
-import avatar_michael from '../assets/avatar_michael.jpg';
-import avatar_emma from '../assets/avatar_emma.jpg';
-import avatar_david from '../assets/avatar_david.jpg';
 
 const Testimonials = () => {
+  const avatar_yash='/avatar_yash.jpg';  
+  const avatar_sarah = '/avatar_sarah.jpg';
+  const avatar_alex = '/avatar_alex.jpg';
+  const avatar_michael = '/avatar_michael.jpg';
+  const avatar_emma = '/avatar_emma.jpg';
+  const avatar_david = '/avatar_david.jpg';
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [activeCard, setActiveCard] = useState(null);
   const video_1="https://res.cloudinary.com/djaigfxun/video/upload/v1769870691/Testinomials_video_1_eqfkqm.mp4"

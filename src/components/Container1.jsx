@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import playverseLogo from '../assets/playverse_logo.png';
-import playverseLogoBlack from '../assets/logo_white_3-removebg-preview.png';
 import '../styles/main.css';
 import './Container2.jsx';
 import './Container3.jsx';
 import './Container4.jsx';
 import './Testimonials.jsx';
 const Container1 = () => {
+  const playverseLogo = "/Playverse_logo.png";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
