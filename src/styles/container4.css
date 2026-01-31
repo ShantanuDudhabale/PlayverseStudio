@@ -934,7 +934,7 @@
 /* Small Mobile - 480px */
 @media (max-width: 480px) {
   .container-4 {
-    padding: 70px 12px;
+    padding: 45px 12px;
     min-height: auto;
   }
 
