@@ -1,0 +1,660 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+/* Base Section */
+.video-showcase-section {
+  position: relative;
+  width: 100%;
+  min-height: auto;
+  background: #000;
+  color: #fff;
+  font-family: 'Manrope', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 24px 0 40px;
+}
+
+.video-showcase-inner {
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 60px;
+  margin: 0 auto;
+}
+
+/* ========================
+   HEADER SECTION
+======================== */
+.showcase-top {
+  text-align: center;
+  margin-bottom: 80px;
+  animation: fadeInDown 0.7s ease-out;
+}
+
+.showcase-badge {
+  display: inline-block;
+  padding: 10px 28px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: #fff;
+  background: linear-gradient(180deg, #8a2be2, #2d1149);
+  border: 1px solid rgba(199, 125, 255, 0.3);
+  box-shadow: 0 0 25px rgba(138, 43, 226, 0.35);
+  margin-bottom: 28px;
+}
+
+.showcase-title {
+  font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.title-gradient {
+  background: linear-gradient(135deg, #8a2be2, #c77dff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.showcase-subtitle {
+  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ========================
+   VIDEOS STACK LAYOUT
+======================== */
+.videos-stack {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 60px;
+}
+
+.stack-video-card {
+  position: relative;
+  animation: stackSlideUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.stack-video-card:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.stack-video-card:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.stack-video-card:nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+.stack-card-inner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0a0a0a;
+  border: 1.5px solid rgba(138, 43, 226, 0.15);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(138, 43, 226, 0.05);
+}
+
+.stack-video-card:hover .stack-card-inner {
+  border-color: rgba(138, 43, 226, 0.35);
+  box-shadow: 0 20px 60px rgba(138, 43, 226, 0.2), 0 0 30px rgba(138, 43, 226, 0.1);
+  transform: translateY(-6px);
+}
+
+.stack-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stack-video-card:hover .stack-card-image {
+  transform: scale(1.05);
+}
+
+/* Gradient Overlay */
+.stack-card-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0.5) 100%);
+  pointer-events: none;
+}
+
+/* Views Counter */
+.views-counter {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(14px);
+  border: 1.2px solid rgba(199, 125, 255, 0.3);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #c77dff;
+  letter-spacing: 0.4px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stack-video-card:hover .views-counter {
+  background: rgba(138, 43, 226, 0.15);
+  border-color: rgba(199, 125, 255, 0.5);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 32px rgba(138, 43, 226, 0.25);
+}
+
+/* Play Button Overlay */
+.stack-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out;
+  backdrop-filter: blur(4px);
+}
+
+.play-icon-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8a2be2, #c77dff);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 12px 36px rgba(138, 43, 226, 0.5);
+  padding: 0;
+}
+
+.play-icon-btn:hover {
+  transform: scale(1.14);
+  box-shadow: 0 24px 64px rgba(138, 43, 226, 0.75);
+}
+/* Video Controls Styles - YouTube Inspired */
+
+.stack-video-card {
+  position: relative;
+}
+
+.stack-card-inner {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Video Controls Container */
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, transparent 100%);
+  padding: 40px 16px 16px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.video-controls.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+/* Progress Bar Container */
+.video-progress-container {
+  width: 100%;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 12px;
+  padding: 8px 0;
+}
+
+.video-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  transition: height 0.15s ease;
+}
+
+.video-progress-container:hover .video-progress-bar {
+  height: 6px;
+}
+
+.video-progress-filled {
+  height: 100%;
+  background: linear-gradient(90deg, #8A2BE2, #9D4EDD);
+  border-radius: 2px;
+  position: relative;
+  transition: width 0.1s linear;
+}
+
+.video-progress-filled::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.video-progress-container:hover .video-progress-filled::after {
+  opacity: 1;
+}
+
+/* Controls Bar */
+.video-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.controls-left,
+.controls-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Control Buttons */
+.control-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.control-btn:active {
+  transform: scale(0.95);
+}
+
+/* Video Time Display */
+.video-time {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: 0.5px;
+  user-select: none;
+  padding: 0 4px;
+  white-space: nowrap;
+}
+
+/* Tooltip on hover (optional enhancement) */
+.control-btn::before {
+  content: attr(aria-label);
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  z-index: 100;
+}
+
+.control-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.control-btn:hover::before,
+.control-btn:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .video-controls {
+    padding: 30px 12px 12px;
+  }
+
+  .control-btn {
+    padding: 6px;
+  }
+
+  .control-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .video-time {
+    font-size: 11px;
+  }
+
+  .controls-left,
+  .controls-right {
+    gap: 4px;
+  }
+
+  /* Hide tooltips on mobile */
+  .control-btn::before,
+  .control-btn::after {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-progress-bar {
+    height: 3px;
+  }
+
+  .video-progress-container:hover .video-progress-bar {
+    height: 4px;
+  }
+
+  .video-time {
+    font-size: 10px;
+  }
+
+  .control-btn {
+    padding: 4px;
+  }
+
+  .control-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Focus states for accessibility */
+.control-btn:focus-visible {
+  outline: 2px solid #8A2BE2;
+  outline-offset: 2px;
+}
+
+.video-progress-container:focus-visible {
+  outline: 2px solid #8A2BE2;
+  outline-offset: 2px;
+}
+
+/* Loading state animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.video-progress-bar.loading {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+/* ========================
+   ANIMATIONS
+======================== */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stackSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ========================
+   RESPONSIVE DESIGN
+======================== */
+@media (max-width: 1200px) {
+  .video-showcase-inner {
+    padding: 10px 50px;
+  }
+
+  .showcase-top {
+    margin-bottom: 10px;
+  }
+
+  .videos-stack {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .showcase-title {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .video-showcase-inner {
+    padding: 20px 40px;
+  }
+
+  .showcase-top {
+    margin-bottom: 10px;
+  }
+
+  .videos-stack {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .stack-card-inner {
+    aspect-ratio: 16 / 9;
+  }
+
+  .views-counter {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .play-icon-btn {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+@media (max-width: 768px) {
+  .video-showcase-section {
+    padding: 60px 0;
+  }
+
+  .video-showcase-inner {
+    padding: 0 24px;
+  }
+
+  .showcase-top {
+    margin-bottom: 50px;
+  }
+
+  .showcase-title {
+    font-size: 2rem;
+  }
+
+  .showcase-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .showcase-badge {
+    padding: 8px 20px;
+    font-size: 11px;
+  }
+
+  .videos-stack {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .stack-card-inner {
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+  }
+
+  .views-counter {
+    padding: 7px 12px;
+    font-size: 11px;
+    bottom: 12px;
+    left: 12px;
+    border-radius: 8px;
+  }
+
+  .play-icon-btn {
+    width: 56px;
+    height: 56px;
+  }
+
+  .stack-video-card:hover .stack-card-inner {
+    transform: translateY(-4px);
+  }
+}
+
+@media (max-width: 480px) {
+  .video-showcase-section {
+    padding: 20px 10px;
+  }
+
+  .video-showcase-inner {
+    padding: 0 16px;
+  }
+
+  .showcase-top {
+    margin-bottom: 40px;
+  }
+
+  .showcase-title {
+    font-size: 1.5rem;
+  }
+
+  .showcase-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .showcase-badge {
+    padding: 6px 16px;
+    font-size: 10px;
+  }
+
+  .videos-stack {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 40px;
+  }
+
+  .stack-card-inner {
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    border: 1px solid rgba(138, 43, 226, 0.1);
+  }
+
+  .views-counter {
+    padding: 6px 10px;
+    font-size: 10px;
+    bottom: 10px;
+    left: 10px;
+    border-radius: 6px;
+    gap: 5px;
+  }
+
+  .views-counter svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .play-icon-btn {
+    width: 52px;
+    height: 52px;
+  }
+
+  .play-icon-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .stack-video-card:hover .stack-card-inner {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(138, 43, 226, 0.15);
+  }
+}
