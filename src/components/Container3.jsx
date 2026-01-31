@@ -164,7 +164,8 @@ const Container3 = () => {
                       loop
                       muted
                       autoPlay
-                      controls
+                      playsInline
+                      webkit-playsinline="true"
                       className="video-element"
                     />
                   </div>
