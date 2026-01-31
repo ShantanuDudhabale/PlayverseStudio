@@ -114,7 +114,8 @@ const Container1 = () => {
         </h1>
 
         <div className="intro-small">
-          We help Entrepreneurs, influencers, venture capital funds, AI and tech companies scale their organic content.
+          <p>We help Entrepreneurs, influencers, venture capital funds, AI and tech companies scale</p>
+          <p>their organic content.</p>
         </div>
 
         <button className="book-call-button" onClick={() => window.open('https://calendly.com/playverse14/30min', '_blank')}>Book a Discovery Call</button>
