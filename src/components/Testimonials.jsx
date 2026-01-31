@@ -67,7 +67,7 @@ const Testimonials = () => {
       content: 'Playverse Studio delivers high-quality creative solutions with precision and consistency. Their attention to detail and execution truly stand out.',
       avatar: avatar_alex,
       rating: 5,
-      link: 'https://instagram.com/alexchen'
+      link: '#'
     },
     {
       type: 'text',
@@ -79,7 +79,7 @@ const Testimonials = () => {
       content: 'Working with Playverse Studio was a seamless experience from start to finish. They combine creativity with strategy to deliver meaningful results.',
       avatar: avatar_michael,
       rating: 5,
-      link: 'https://instagram.com/michaelr'
+      link: '#'
     },
     {
       type: 'text',
@@ -91,7 +91,7 @@ const Testimonials = () => {
       content: 'Playverse Studio delivers high-quality creative work with impressive attention to detail. Their team understands project goals clearly and executes them with precision.',
       avatar: avatar_emma,
       rating: 5,
-      link: 'https://instagram.com/emmawilson'
+      link: '#'
     },
     {
       type: 'text',
@@ -103,7 +103,7 @@ const Testimonials = () => {
       content: 'The outcome exceeded expectations and added real value to our brand. Working with them feels smooth, reliable, and genuinely impactful.',
       avatar: avatar_david,
       rating: 5,
-      link: 'https://instagram.com/davidmartinez'
+      link: '#'
     }
   ];
 

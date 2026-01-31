@@ -1,13 +1,14 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import  BackgroundAnimation  from "./Antigravity"
+import { useState, useEffect, useRef } from "react"
+import BackgroundAnimation from "./Antigravity"
 import { Sparkles, Eye, Trophy, Zap, Target, Rocket } from "lucide-react"
 import "../styles/container2.css"
 
 const Container2 = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [hoveredCard, setHoveredCard] = useState(null)
+  const scrollContainerRef = useRef(null)
  
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -82,45 +83,47 @@ const Container2 = () => {
           </p>
         </div>
 
+        {/* Scroll Container - This is what scrolls on mobile */}
+        <div className="cards-scroll-container" ref={scrollContainerRef}>
+          <div className="cards-grid">
+            {cardData.map((card, index) => {
+              const IconComponent = card.icon
+              return (
+                <div
+                  key={card.id}
+                  className="animated-card"
+                  onMouseEnter={() => setHoveredCard(card.id)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                  style={{
+                    "--card-color": card.color,
+                    animationDelay: `${index * 0.1}s`,
+                  }}
+                >
+                  {/* Card shine effect */}
+                  <div className="card-shine-effect"></div>
 
-        <div className="cards-grid">
-          {cardData.map((card, index) => {
-            const IconComponent = card.icon
-            return (
-              <div
-                key={card.id}
-                className="animated-card"
-                onMouseEnter={() => setHoveredCard(card.id)}
-                onMouseLeave={() => setHoveredCard(null)}
-                style={{
-                  "--card-color": card.color,
-                  animationDelay: `${index * 0.1}s`,
-                }}
-              >
-                {/* Card shine effect */}
-                <div className="card-shine-effect"></div>
+                  {/* Animated border glow */}
+                  <div className="card-border-glow"></div>
 
-                {/* Animated border glow */}
-                <div className="card-border-glow"></div>
-
-                {/* Icon container */}
-                <div className="card-icon-wrapper">
-                  <div className="icon-background">
-                    <IconComponent size={32} strokeWidth={1.5} />
+                  {/* Icon container */}
+                  <div className="card-icon-wrapper">
+                    <div className="icon-background">
+                      <IconComponent size={32} strokeWidth={1.5} />
+                    </div>
                   </div>
-                </div>
 
-                {/* Text content */}
-                <div className="card-content">
-                  <h3>{card.title}</h3>
-                  <p>{card.description}</p>
-                </div>
+                  {/* Text content */}
+                  <div className="card-content">
+                    <h3>{card.title}</h3>
+                    <p>{card.description}</p>
+                  </div>
 
-                {/* Bottom accent */}
-                <div className="card-accent"></div>
-              </div>
-            )
-          })}
+                  {/* Bottom accent */}
+                  <div className="card-accent"></div>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     </div>

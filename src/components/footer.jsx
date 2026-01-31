@@ -3,7 +3,7 @@ import { Twitter, Linkedin, Youtube, Instagram, Mail } from 'lucide-react';
 import '../styles/PlayverseFooter.css';
 
 const PlayverseFooter = () => {
-  const playverseLogo = '../assets/playverse_logo.png';
+  const playverseLogo = '/Playverse_logo.png';
   const [particles, setParticles] = useState([]);
 
   useEffect(() => {
@@ -20,10 +20,10 @@ const PlayverseFooter = () => {
   }, []);
 
   const navLinks = [
-    'For Creators',
-    'For Businesses',
-    'Our Work',
-    'Blog'
+    "For Creators",
+    "For Businesses",
+    "For Founders",
+    "For VCs"
   ];
 
   const socialLinks = [
@@ -97,12 +97,12 @@ const PlayverseFooter = () => {
           <div className="web-designer">
             Made with <span className="heart">❤️</span> by
             <span className="designer-name"> Shantanu Dudhabale</span>
-            <p className="designer-name">dudhabaleshantanu21@gmail.com</p>
+            <p className="designer-ename">(dudhabaleshantanu21@gmail.com)</p>
           </div>
 
           {/* Copyright and links */}
           <div className="footer-bottom">
-            <span className="copyright">© Playverse Studio 2023</span>
+            <span className="copyright">© Playverse Studio 2026</span>
             <div className="footer-links">
               <a href="#" className="footer-link">Privacy Policy</a>
               <span className="divider">•</span>

@@ -92,9 +92,9 @@ const Container1 = () => {
         {/* Mobile Menu Content */}
         <div className="mobile-menu-content">
           <div className="mobile-menu-links">
+            <a href="#Benefits" onClick={toggleMobileMenu}>Benefits</a>
+            <a href="#services" onClick={toggleMobileMenu}>Services</a>
             <a href="#process" onClick={toggleMobileMenu}>Process</a>
-            <a href="#solutions" onClick={toggleMobileMenu}>Solutions</a>
-            <a href="#work" onClick={toggleMobileMenu}>Work</a>
             <a href="#testimonials" onClick={toggleMobileMenu}>Testimonials</a>
           </div>
           <button className="mobile-contact-btn" onClick={() => window.open('https://calendly.com/playverse14/30min', '_blank')}>

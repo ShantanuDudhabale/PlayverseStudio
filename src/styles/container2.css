@@ -170,6 +170,11 @@
 }
 
 /* ================= CARDS GRID ================= */
+.cards-scroll-container {
+  width: 100%;
+  overflow: visible;
+}
+
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -196,6 +201,10 @@
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   animation: cardEntrance 0.6s ease-out forwards;
   opacity: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 @keyframes cardEntrance {
@@ -447,97 +456,186 @@
 @media (max-width: 768px) {
   .container-2 {
     min-height: auto;
-    padding-bottom: 0px;
-    overflow-x: auto;      /* Enable horizontal scroll */
-    overflow-y: visible;
-    -webkit-overflow-scrolling: touch;  /* Smooth scrolling on iOS */
+    padding: 60px 0 0 0;
+    overflow: visible;  /* Container doesn't scroll */
   }
 
-  .cards-grid {
-    display: flex;         /* Change to flexbox for horizontal scroll */
-    flex-wrap: nowrap;     /* Don't wrap cards */
-    gap: 20px;
-    width: max-content;    /* Allow grid to exceed viewport */
-    padding-bottom: 20px;  /* Space for scrollbar */
-  }
-
-  .section-header h2 {
-    font-size: 1.6rem;     /* 2rem * 0.8 */
+  .content-section {
+    padding: 0;
+    overflow: visible;
   }
 
   .section-header {
-    margin-bottom: 60px;
+    padding: 0 20px;
+    margin-bottom: 40px;
+  }
+
+  .section-header h2 {
+    font-size: 1.6rem;
+  }
+
+  /* THIS IS THE SCROLLING ELEMENT */
+  .cards-scroll-container {
+    width: 100%;
+    overflow-x: auto;  /* Enable horizontal scroll HERE */
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;  /* iOS momentum scrolling */
+    scroll-behavior: smooth;
+    padding: 0 0 20px 0;  /* Padding for scrollbar */
+    /* Touch optimizations */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+
+  .cards-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 20px;
+    width: max-content;  /* Extend beyond viewport */
+    padding: 0 20px;  /* Side padding for first/last cards */
+    margin: 0;
+    max-width: none;
   }
 
   .animated-card {
     padding: 30px;
     min-height: 250px;
-    width: 280px;          /* Fixed width for cards */
-    flex-shrink: 0;        /* Prevent cards from shrinking */
+    width: 280px;
+    min-width: 280px;
+    flex-shrink: 0;
+  }
+  
+  /* Disable hover effects on mobile */
+  .animated-card:hover {
+    transform: none;
+    border-color: rgba(138, 43, 226, 0.2);
+    box-shadow: none;
+  }
+  
+  .animated-card:hover .icon-background {
+    transform: none;
+    box-shadow: none;
   }
 }
 
 @media (max-width: 480px) {
   .container-2 {
-    padding: 60px 15px 0px;
-    overflow-x: auto;      /* Enable horizontal scroll */
-    overflow-y: visible;
-    -webkit-overflow-scrolling: touch;  /* Smooth scrolling on iOS */
+    padding: 60px 0 0 0;
+    overflow: visible;
   }
 
-  .cards-grid {
-    display: flex;         /* Change to flexbox for horizontal scroll */
-    flex-wrap: nowrap;     /* Don't wrap cards */
-    gap: 15px;
-    width: max-content;
-    padding-bottom: 20px;
+  .section-header {
+    padding: 0 15px;
+    margin-bottom: 30px;
   }
 
   .section-header h2 {
-    font-size: 1.28rem;    /* 1.6rem * 0.8 */
+    font-size: 1.28rem;
   }
 
   .section-subtitle {
-    font-size: 0.76rem;    /* 0.95rem * 0.8 */
+    font-size: 0.76rem;
   }
 
   .badge {
-    font-size: 8px;        /* 10px * 0.8 */
+    font-size: 8px;
     padding: 3px 18px;
   }
 
+  /* THIS IS THE SCROLLING ELEMENT */
+  .cards-scroll-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    padding: 0 0 20px 0;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+
+  .cards-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 15px;
+    width: max-content;
+    padding: 0 15px;
+    margin: 0;
+    max-width: none;
+  }
+
   .animated-card {
-    padding: 30px;
-    width: 260px;          /* Fixed width for mobile cards */
-    flex-shrink: 0;        /* Prevent cards from shrinking */
+    padding: 25px;
+    min-height: 240px;
+    width: 260px;
+    min-width: 260px;
+    flex-shrink: 0;
   }
 
   .card-content h3 {
-    font-size: 0.88rem;    /* 1.1rem * 0.8 */
+    font-size: 0.88rem;
   }
 
   .card-content p {
-    font-size: 0.68rem;    /* 0.85rem * 0.8 */
+    font-size: 0.68rem;
+  }
+  
+  /* Disable all hover effects */
+  .animated-card:hover {
+    transform: none;
+    border-color: rgba(138, 43, 226, 0.2);
+    box-shadow: none;
+  }
+  
+  .animated-card:hover .icon-background {
+    transform: none;
+    box-shadow: none;
+    background: rgba(138, 43, 226, 0.1);
+  }
+  
+  .animated-card:hover .card-content p {
+    color: rgba(255, 255, 255, 0.7);
   }
 }
 
-/* Scrollbar styling for mobile */
+/* Enhanced scrollbar styling for mobile */
 @media (max-width: 768px) {
-  .container-2::-webkit-scrollbar {
+  /* Scrollbar on the scroll container */
+  .cards-scroll-container::-webkit-scrollbar {
     height: 8px;
+    background: transparent;
   }
 
-  .container-2::-webkit-scrollbar-track {
-    background: rgba(138, 43, 226, 0.1);
+  .cards-scroll-container::-webkit-scrollbar-track {
+    background: rgba(138, 43, 226, 0.05);
     border-radius: 10px;
+    margin: 0 20px;
   }
 
-  .container-2::-webkit-scrollbar-thumb {
-    background: rgba(138, 43, 226, 0.4);
+  .cards-scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(138, 43, 226, 0.3);
     border-radius: 10px;
+    transition: background 0.2s ease;
   }
 
-  .container-2::-webkit-scrollbar-thumb:hover {
-    background: rgba(138, 43, 226, 0.6);
+  .cards-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(138, 43, 226, 0.5);
+  }
+  
+  .cards-scroll-container::-webkit-scrollbar-thumb:active {
+    background: rgba(138, 43, 226, 0.7);
+  }
+}
+
+/* Minimal scrollbar on very small screens */
+@media (max-width: 480px) {
+  .cards-scroll-container::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .cards-scroll-container::-webkit-scrollbar-track {
+    margin: 0 15px;
   }
 }
