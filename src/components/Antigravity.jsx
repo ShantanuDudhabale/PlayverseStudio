@@ -202,25 +202,7 @@ function BackgroundAnimation() {
         }
       })
 
-      // Draw particle connections - static
-      ctx.strokeStyle = "rgba(138, 43, 226, 0.03)"
-      ctx.lineWidth = 0.5
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x
-          const dy = particles[i].y - particles[j].y
-          const distance = Math.sqrt(dx * dx + dy * dy)
-
-          if (distance < 150) {
-            ctx.globalAlpha = 1 - distance / 150
-            ctx.beginPath()
-            ctx.moveTo(particles[i].x, particles[i].y)
-            ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.stroke()
-            ctx.globalAlpha = 1
-          }
-        }
-      }
+      // Particle connections removed - only dots visible
 
       // Draw fixed particles
       particles.forEach((particle) => {
