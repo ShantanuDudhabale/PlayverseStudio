@@ -132,22 +132,18 @@ function BackgroundAnimation() {
     }
 
     const draw = () => {
-      // Clear canvas first
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+      // Clear canvas completely with solid black
+      ctx.fillStyle = "#000000"
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
       
       ctx.globalAlpha = 1
       ctx.globalCompositeOperation = "source-over"
-
-      // Background gradient
-      const gradient = ctx.createLinearGradient(0, 0, 0, window.innerHeight)
-      gradient.addColorStop(0, "rgba(5, 5, 10, 1)")
-      gradient.addColorStop(1, "rgba(0, 0, 0, 1)")
-
-      ctx.fillStyle = gradient
-      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+      ctx.imageSmoothingEnabled = true
+      ctx.imageSmoothingQuality = "high"
 
       // Draw orbs with enhanced glow - all static
       orbs.forEach((orb) => {
+        // Add subtle noise to prevent banding
         for (let i = 3; i > 0; i--) {
           const glowGradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.radius * i)
           const alpha = 0.04 / i
@@ -155,6 +151,7 @@ function BackgroundAnimation() {
           glowGradient.addColorStop(1, "rgba(0, 0, 0, 0)")
 
           ctx.fillStyle = glowGradient
+          ctx.globalAlpha = 0.95 + Math.random() * 0.05
           ctx.beginPath()
           ctx.arc(orb.x, orb.y, orb.radius * i, 0, Math.PI * 2)
           ctx.fill()
@@ -165,6 +162,7 @@ function BackgroundAnimation() {
         mainGradient.addColorStop(0, orb.color)
         mainGradient.addColorStop(1, "rgba(0, 0, 0, 0)")
 
+        ctx.globalAlpha = 1
         ctx.fillStyle = mainGradient
         ctx.beginPath()
         ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2)
@@ -202,25 +200,7 @@ function BackgroundAnimation() {
         }
       })
 
-      // Draw particle connections - static
-      ctx.strokeStyle = "rgba(138, 43, 226, 0.03)"
-      ctx.lineWidth = 0.5
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x
-          const dy = particles[i].y - particles[j].y
-          const distance = Math.sqrt(dx * dx + dy * dy)
-
-          if (distance < 150) {
-            ctx.globalAlpha = 1 - distance / 150
-            ctx.beginPath()
-            ctx.moveTo(particles[i].x, particles[i].y)
-            ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.stroke()
-            ctx.globalAlpha = 1
-          }
-        }
-      }
+      // Particle connections disabled - clean particles only
 
       // Draw fixed particles
       particles.forEach((particle) => {
