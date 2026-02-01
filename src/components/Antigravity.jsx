@@ -138,8 +138,12 @@ function BackgroundAnimation() {
       ctx.globalAlpha = 1
       ctx.globalCompositeOperation = "source-over"
 
-      // Solid background - prevents horizontal stripes on mobile
-      ctx.fillStyle = "rgba(2, 2, 5, 1)"
+      // Background gradient
+      const gradient = ctx.createLinearGradient(0, 0, 0, window.innerHeight)
+      gradient.addColorStop(0, "rgba(5, 5, 10, 1)")
+      gradient.addColorStop(1, "rgba(0, 0, 0, 1)")
+
+      ctx.fillStyle = gradient
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 
       // Draw orbs with enhanced glow - all static
@@ -198,7 +202,25 @@ function BackgroundAnimation() {
         }
       })
 
-      // Particle connections removed - only dots visible
+      // Draw particle connections - static
+      ctx.strokeStyle = "rgba(138, 43, 226, 0.03)"
+      ctx.lineWidth = 0.5
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x
+          const dy = particles[i].y - particles[j].y
+          const distance = Math.sqrt(dx * dx + dy * dy)
+
+          if (distance < 150) {
+            ctx.globalAlpha = 1 - distance / 150
+            ctx.beginPath()
+            ctx.moveTo(particles[i].x, particles[i].y)
+            ctx.lineTo(particles[j].x, particles[j].y)
+            ctx.stroke()
+            ctx.globalAlpha = 1
+          }
+        }
+      }
 
       // Draw fixed particles
       particles.forEach((particle) => {
