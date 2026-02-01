@@ -132,18 +132,15 @@ function BackgroundAnimation() {
     }
 
     const draw = () => {
-      // Clear canvas completely with solid black
+      // Clear canvas with solid black to prevent pixel strips/banding
       ctx.fillStyle = "#000000"
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
       
       ctx.globalAlpha = 1
       ctx.globalCompositeOperation = "source-over"
-      ctx.imageSmoothingEnabled = true
-      ctx.imageSmoothingQuality = "high"
 
-      // Draw orbs with enhanced glow - all static
+      // Draw orbs with enhanced glow - same as original but without pixel strips
       orbs.forEach((orb) => {
-        // Add subtle noise to prevent banding
         for (let i = 3; i > 0; i--) {
           const glowGradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.radius * i)
           const alpha = 0.04 / i
@@ -151,7 +148,6 @@ function BackgroundAnimation() {
           glowGradient.addColorStop(1, "rgba(0, 0, 0, 0)")
 
           ctx.fillStyle = glowGradient
-          ctx.globalAlpha = 0.95 + Math.random() * 0.05
           ctx.beginPath()
           ctx.arc(orb.x, orb.y, orb.radius * i, 0, Math.PI * 2)
           ctx.fill()
@@ -162,7 +158,6 @@ function BackgroundAnimation() {
         mainGradient.addColorStop(0, orb.color)
         mainGradient.addColorStop(1, "rgba(0, 0, 0, 0)")
 
-        ctx.globalAlpha = 1
         ctx.fillStyle = mainGradient
         ctx.beginPath()
         ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2)
