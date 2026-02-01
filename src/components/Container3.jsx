@@ -7,6 +7,8 @@ const Container3 = () => {
   const [isMobile, setIsMobile] = useState(false)
   const [transitionDirection, setTransitionDirection] = useState(null)
   const [activeCategory, setActiveCategory] = useState('trending')
+  const [soundEnabled, setSoundEnabled] = useState({}) // Track sound state per video
+  const [isPlaying, setIsPlaying] = useState({}) // Track play/pause state per video
   const videoRefs = useRef([])
 
   useEffect(() => {
@@ -14,14 +16,17 @@ const Container3 = () => {
     videoRefs.current.forEach((video, idx) => {
       if (!video) return;
       if (visibleIndexes.includes(idx)) {
-        video.muted = true;
-        video.play().catch(() => {});
+        video.muted = !soundEnabled[idx];
+        // Auto-play visible videos unless explicitly paused
+        if (isPlaying[idx] !== false) {
+          video.play().catch(() => {});
+        }
       } else {
         video.pause();
         video.currentTime = 0;
       }
     });
-  }, [currentIndex, isMobile, activeCategory]);
+  }, [currentIndex, isMobile, activeCategory, soundEnabled, isPlaying]);
 
   // Replace these with your actual Google Drive file IDs
   const trendingVideos = [
@@ -79,6 +84,30 @@ const Container3 = () => {
     setActiveCategory(category)
     setCurrentIndex(0)
     setTransitionDirection(null)
+    setSoundEnabled({})
+    setIsPlaying({})
+  }
+
+  const toggleSound = (index) => {
+    setSoundEnabled(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }))
+  }
+
+  const togglePlayPause = (index, e) => {
+    e.stopPropagation();
+    
+    const video = videoRefs.current[index];
+    if (!video) return;
+
+    if (video.paused) {
+      video.play().catch(() => {});
+      setIsPlaying(prev => ({ ...prev, [index]: true }));
+    } else {
+      video.pause();
+      setIsPlaying(prev => ({ ...prev, [index]: false }));
+    }
   }
 
   const getVisibleVideos = () => {
@@ -149,25 +178,75 @@ const Container3 = () => {
           <div className="carousel-container">
             {featuredVideos.map((video, index) => {
               const position = getCardPosition(index)
+              const visibleIndexes = getVisibleVideos()
+              const isVisible = visibleIndexes.includes(index)
+              const isSoundOn = soundEnabled[index]
+              const videoIsPlaying = isPlaying[index] !== false
+              
               return (
                 <div
                   key={video.id}
-                  className={`carousel-card ${position} ${transitionDirection === 'left' && position === 'center' ? 'transition-left' : ''
-                    } ${transitionDirection === 'right' && position === 'center' ? 'transition-right' : ''
-                    }`}
+                  className={`carousel-card ${position} ${
+                    transitionDirection === 'left' && position === 'center' ? 'transition-left' : ''
+                  } ${
+                    transitionDirection === 'right' && position === 'center' ? 'transition-right' : ''
+                  }`}
                   onAnimationEnd={() => setTransitionDirection(null)}
                 >
-                  <div className="card-media">
+                  <div 
+                    className="card-media"
+                    onClick={(e) => togglePlayPause(index, e)}
+                  >
                     <video
                       ref={(el) => videoRefs.current[index] = el}
                       src={video.video}
                       loop
-                      muted
+                      muted={!isSoundOn}
                       autoPlay
                       playsInline
                       webkit-playsinline="true"
                       className="video-element"
                     />
+                    
+                    {isVisible && !videoIsPlaying && (
+                      <div className="play-pause-overlay">
+                        <div className="play-icon">
+                          <svg 
+                            width="60" 
+                            height="60" 
+                            viewBox="0 0 24 24" 
+                            fill="white"
+                          >
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                          </svg>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {isVisible && !isSoundOn && (
+                      <div 
+                        className="sound-icon"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleSound(index);
+                        }}
+                      >
+                        <svg 
+                          width="18" 
+                          height="18" 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="white" 
+                          strokeWidth="2"
+                          strokeLinecap="round" 
+                          strokeLinejoin="round"
+                        >
+                          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                          <line x1="23" y1="9" x2="17" y2="15"></line>
+                          <line x1="17" y1="9" x2="23" y2="15"></line>
+                        </svg>
+                      </div>
+                    )}
                   </div>
                 </div>
               )

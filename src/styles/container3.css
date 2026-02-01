@@ -379,6 +379,7 @@
   flex-shrink: 0;
   transform-style: preserve-3d;
   transition: var(--carousel-transition);
+  border-radius: 24px;
 }
 
 .carousel-card.hidden {
@@ -441,21 +442,88 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 24px;
 }
 
-/* Sound Icon */
+/* Sound Icon - Enhanced styling */
 .sound-icon {
   position: absolute;
   top: 16px;
   right: 16px;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
+  cursor: pointer;
   z-index: 10;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.sound-icon:hover {
+  background: rgba(0, 0, 0, 0.85);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.sound-icon:active {
+  transform: scale(0.95);
+}
+
+.sound-icon svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Play/Pause Overlay */
+.play-pause-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 5;
+  cursor: pointer;
+  animation: fadeIn 0.3s ease;
+}
+
+.play-icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(138, 43, 226, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 8px 32px rgba(138, 43, 226, 0.4);
+  transition: all 0.3s ease;
+}
+
+.play-pause-overlay:hover .play-icon {
+  transform: scale(1.1);
+  background: rgba(138, 43, 226, 1);
+  box-shadow: 0 12px 40px rgba(138, 43, 226, 0.6);
+}
+
+.play-icon svg {
+  margin-left: 4px; /* Offset to center the play triangle visually */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Title Label Overlay */
@@ -704,6 +772,11 @@
     width: 45px;
     height: 45px;
   }
+
+  .sound-icon {
+    width: 36px;
+    height: 36px;
+  }
 }
 
 /* Mobile and Tablet (768px and below) */
@@ -809,6 +882,28 @@
   .right-arrow {
     right: 10px;
   }
+
+  .sound-icon {
+    width: 34px;
+    height: 34px;
+    top: 14px;
+    right: 14px;
+  }
+
+  .sound-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .play-icon {
+    width: 70px;
+    height: 70px;
+  }
+
+  .play-icon svg {
+    width: 50px;
+    height: 50px;
+  }
 }
 
 /* Mobile (640px and below) */
@@ -888,6 +983,28 @@
     right: 5px;
   }
 
+  .sound-icon {
+    width: 32px;
+    height: 32px;
+    top: 12px;
+    right: 12px;
+  }
+
+  .sound-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .play-icon {
+    width: 65px;
+    height: 65px;
+  }
+
+  .play-icon svg {
+    width: 45px;
+    height: 45px;
+  }
+
   .action-button {
     width: 100%;
     padding: 14px 24px;
@@ -962,6 +1079,28 @@
   .carousel-card {
     width: 78%;
     max-width: 260px;
+  }
+
+  .sound-icon {
+    width: 30px;
+    height: 30px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .sound-icon svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .play-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .play-icon svg {
+    width: 40px;
+    height: 40px;
   }
 
   .title-main {
