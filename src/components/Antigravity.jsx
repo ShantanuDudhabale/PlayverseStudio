@@ -138,12 +138,8 @@ function BackgroundAnimation() {
       ctx.globalAlpha = 1
       ctx.globalCompositeOperation = "source-over"
 
-      // Background gradient
-      const gradient = ctx.createLinearGradient(0, 0, 0, window.innerHeight)
-      gradient.addColorStop(0, "rgba(5, 5, 10, 1)")
-      gradient.addColorStop(1, "rgba(0, 0, 0, 1)")
-
-      ctx.fillStyle = gradient
+      // Solid background - prevents horizontal stripes on mobile
+      ctx.fillStyle = "rgba(2, 2, 5, 1)"
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 
       // Draw orbs with enhanced glow - all static
