@@ -43,6 +43,12 @@
   margin-bottom: 60px;
   animation: slideInDown 0.8s ease-out;
 }
+.highlights {
+  background: linear-gradient(135deg, #8a2be2, #c77dff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
 /* Enhanced Stats Section */
 /* Header Section Container */

@@ -120,8 +120,8 @@ const Container3 = () => {
 
           <div className="title-wrapper">
             <h1 className="main-title">
-              Transforming long-form content<br />
-              into viral short-form masterpieces
+              Transforming <span className="highlights">long-form content</span><br />
+              into viral <span className="highlights">short-form masterpieces</span>
             </h1>
           </div>
 
