@@ -9,25 +9,17 @@ function BackgroundAnimation() {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext("2d")
+    const ctx = canvas.getContext("2d", { willReadFrequently: false })
     if (!ctx) return
 
     const setCanvasSize = () => {
-      const dpr = window.devicePixelRatio || 1
-
-      canvas.width = window.innerWidth * dpr
-      canvas.height = window.innerHeight * dpr
-
-      canvas.style.width = "100vw"
-      canvas.style.height = "100vh"
-
-      ctx.setTransform(1, 0, 0, 1, 0, 0)
-      ctx.scale(dpr, dpr)
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
     }
 
     setCanvasSize()
 
-    // Fixed particle positions - these never move
+    // Fixed particle positions
     const particles = []
     class Particle {
       constructor() {
@@ -45,12 +37,12 @@ function BackgroundAnimation() {
       }
     }
 
-    // Initialize particles with fixed positions
+    // Initialize particles
     for (let i = 0; i < 120; i++) {
       particles.push(new Particle())
     }
 
-    // Fixed orbs - no movement
+    // Fixed orbs
     const orbs = [
       {
         x: window.innerWidth * 0.15,
@@ -78,7 +70,7 @@ function BackgroundAnimation() {
       },
     ]
 
-    // Fixed shapes - with rotation animation
+    // Fixed shapes
     const floatingShapes = [
       {
         x: window.innerWidth * 0.1,
@@ -116,6 +108,7 @@ function BackgroundAnimation() {
         else ctx.lineTo(px, py)
       }
       ctx.closePath()
+      ctx.stroke()
       ctx.restore()
     }
 
@@ -128,30 +121,30 @@ function BackgroundAnimation() {
       ctx.lineTo(size, size)
       ctx.lineTo(-size, size)
       ctx.closePath()
+      ctx.stroke()
       ctx.restore()
     }
 
     const draw = () => {
-      // Clear canvas first
+      // Clear entire canvas
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
-      
-      ctx.globalAlpha = 1
-      ctx.globalCompositeOperation = "source-over"
 
-      // Background gradient
-      const gradient = ctx.createLinearGradient(0, 0, 0, window.innerHeight)
-      gradient.addColorStop(0, "rgba(5, 5, 10, 1)")
-      gradient.addColorStop(1, "rgba(0, 0, 0, 1)")
-
-      ctx.fillStyle = gradient
+      // Simple solid background instead of gradient
+      ctx.fillStyle = "#000000"
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
 
-      // Draw orbs with enhanced glow - all static
+      // Draw orbs with glow
       orbs.forEach((orb) => {
         for (let i = 3; i > 0; i--) {
-          const glowGradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.radius * i)
-          const alpha = 0.04 / i
-          glowGradient.addColorStop(0, orb.color.replace("0.1", `${alpha}`))
+          const glowGradient = ctx.createRadialGradient(
+            orb.x,
+            orb.y,
+            0,
+            orb.x,
+            orb.y,
+            orb.radius * i
+          )
+          glowGradient.addColorStop(0, orb.color)
           glowGradient.addColorStop(1, "rgba(0, 0, 0, 0)")
 
           ctx.fillStyle = glowGradient
@@ -161,7 +154,14 @@ function BackgroundAnimation() {
         }
 
         // Main orb
-        const mainGradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.radius)
+        const mainGradient = ctx.createRadialGradient(
+          orb.x,
+          orb.y,
+          0,
+          orb.x,
+          orb.y,
+          orb.radius
+        )
         mainGradient.addColorStop(0, orb.color)
         mainGradient.addColorStop(1, "rgba(0, 0, 0, 0)")
 
@@ -171,9 +171,8 @@ function BackgroundAnimation() {
         ctx.fill()
       })
 
-      // Draw shapes at fixed positions with rotation animation
+      // Draw shapes with rotation
       floatingShapes.forEach((shape) => {
-        // Rotate shapes continuously
         shape.rotation += 0.02
 
         if (shape.type === "hexagon") {
@@ -195,14 +194,12 @@ function BackgroundAnimation() {
           ctx.restore()
         } else if (shape.type === "hexagon") {
           drawHexagon(shape.x, shape.y, shape.size / 2, shape.rotation)
-          ctx.stroke()
         } else if (shape.type === "triangle") {
           drawTriangle(shape.x, shape.y, shape.size / 2, shape.rotation)
-          ctx.stroke()
         }
       })
 
-      // Draw fixed particles
+      // Draw particles
       particles.forEach((particle) => {
         particle.draw()
       })
@@ -215,14 +212,11 @@ function BackgroundAnimation() {
       animationFrameId = requestAnimationFrame(animate)
     }
 
-    // Start animation for rotating shapes
     animate()
 
-    // Handle resize - redraw on resize
     const handleResize = () => {
       setCanvasSize()
-      
-      // Recalculate positions based on new window size
+
       orbs[0].x = window.innerWidth * 0.15
       orbs[0].y = window.innerHeight * 0.25
       orbs[1].x = window.innerWidth * 0.85
@@ -239,7 +233,6 @@ function BackgroundAnimation() {
       floatingShapes[2].x = window.innerWidth * 0.7
       floatingShapes[2].y = window.innerHeight * 0.8
 
-      // Regenerate particles for new window size
       particles.length = 0
       for (let i = 0; i < 120; i++) {
         particles.push(new Particle())
@@ -255,8 +248,11 @@ function BackgroundAnimation() {
   }, [])
 
   return (
-    <div className="antigravity-background">
-      <canvas ref={canvasRef} />
+    <div style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", zIndex: 0 }}>
+      <canvas
+        ref={canvasRef}
+        style={{ display: "block", width: "100%", height: "100%" }}
+      />
     </div>
   )
 }
