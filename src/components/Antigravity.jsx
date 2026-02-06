@@ -1,9 +1,36 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { canvasRef } from "./canvasRef" // Assuming canvasRef is declared in another file
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * window.innerWidth
+    this.y = Math.random() * window.innerHeight
+    this.size = Math.random() * 2 + 1
+    this.speedX = (Math.random() - 0.5) * 2
+    this.speedY = (Math.random() - 0.5) * 2
+  }
+
+  draw() {
+    const ctx = canvasRef.current.getContext("2d")
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)"
+    ctx.beginPath()
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
+    ctx.fill()
+  }
+
+  update() {
+    this.x += this.speedX
+    this.y += this.speedY
+    if (this.size > 0.5) this.size -= 0.05
+    if (this.x < 0 || this.x > window.innerWidth) this.speedX = -this.speedX
+    if (this.y < 0 || this.y > window.innerHeight) this.speedY = -this.speedY
+  }
+}
 
 function BackgroundAnimation() {
-  const canvasRef = useRef(null)
+  const particles = []
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -19,28 +46,7 @@ function BackgroundAnimation() {
 
     setCanvasSize()
 
-    // Fixed particle positions
-    const particles = []
-    class Particle {
-      constructor() {
-        this.x = Math.random() * window.innerWidth
-        this.y = Math.random() * window.innerHeight
-        this.size = Math.random() * 1.5 + 0.5
-        this.opacity = Math.random() * 0.6 + 0.2
-      }
-
-      draw() {
-        ctx.fillStyle = `rgba(138, 43, 226, ${this.opacity})`
-        ctx.beginPath()
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-        ctx.fill()
-      }
-    }
-
-    // Initialize particles
-    for (let i = 0; i < 120; i++) {
-      particles.push(new Particle())
-    }
+    // No particles - keep canvas clean
 
     // Fixed orbs
     const orbs = [
@@ -198,17 +204,15 @@ function BackgroundAnimation() {
           drawTriangle(shape.x, shape.y, shape.size / 2, shape.rotation)
         }
       })
-
-      // Draw particles
-      particles.forEach((particle) => {
-        particle.draw()
-      })
     }
 
     let animationFrameId
 
     const animate = () => {
       draw()
+      particles.forEach((particle) => {
+        particle.update()
+      })
       animationFrameId = requestAnimationFrame(animate)
     }
 
@@ -232,11 +236,6 @@ function BackgroundAnimation() {
       floatingShapes[1].y = window.innerHeight * 0.3
       floatingShapes[2].x = window.innerWidth * 0.7
       floatingShapes[2].y = window.innerHeight * 0.8
-
-      particles.length = 0
-      for (let i = 0; i < 120; i++) {
-        particles.push(new Particle())
-      }
     }
 
     window.addEventListener("resize", handleResize)
