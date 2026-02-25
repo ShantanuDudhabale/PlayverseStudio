@@ -32,7 +32,7 @@ const Container3 = () => {
   const trendingVideos = [
     { 
       id: 1, 
-      video: "https://res.cloudinary.com/djaigfxun/video/upload/v1769893311/short_video_1_1_x4qkzy.mp4"
+      video: "https://dbrjncaosdypvmxfqqng.supabase.co/storage/v1/object/public/Playverse%20Studio/short_video_1%20(2).mp4"
     },
     { 
       id: 2, 
@@ -40,7 +40,7 @@ const Container3 = () => {
     },
     { 
       id: 3, 
-      video: "https://res.cloudinary.com/djaigfxun/video/upload/v1769866338/Short_video_8_s9hz1w.mp4"
+      video: "https://dbrjncaosdypvmxfqqng.supabase.co/storage/v1/object/public/Playverse%20Studio/Short_video_8%20(2)%20(1).mp4"
     },
     { 
       id: 4, 
@@ -52,11 +52,11 @@ const Container3 = () => {
   const latestVideos = [
     { 
       id: 5, 
-      video: "https://res.cloudinary.com/djaigfxun/video/upload/v1769850524/WhatsApp_Video_2026-01-29_at_10.43.35_qkicp7.mp4"
+      video: "https://dbrjncaosdypvmxfqqng.supabase.co/storage/v1/object/public/Playverse%20Studio/nike%20(1)%20(1).mp4"
     },
     { 
       id: 6, 
-      video: "https://res.cloudinary.com/djaigfxun/video/upload/v1769850352/WhatsApp_Video_2026-01-29_at_10.48.29_1_gu2o7u.mp4"
+      video: "https://dbrjncaosdypvmxfqqng.supabase.co/storage/v1/object/public/Playverse%20Studio/short_video_6%20(1).mp4"
     },
     { 
       id: 7, 
@@ -64,7 +64,7 @@ const Container3 = () => {
     },
     { 
       id: 8, 
-      video: "https://res.cloudinary.com/djaigfxun/video/upload/v1769850575/short_video_5_rejfwt.mp4"
+      video: "https://dbrjncaosdypvmxfqqng.supabase.co/storage/v1/object/public/Playverse%20Studio/short_video_7%20(2)%20(1).mp4"
     }
   ]
 

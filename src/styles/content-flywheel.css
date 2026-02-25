@@ -557,7 +557,7 @@ html {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 9999;
+  z-index: 99999;
   border: 1px solid rgba(134, 42, 221, 0.2);
   box-shadow: 0 0 30px rgba(138, 43, 226, 0.1);
   will-change: transform;

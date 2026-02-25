@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import '../styles/main.css';
-import './Container2.jsx';
-import './Container3.jsx';
-import './Container4.jsx';
-import './Testimonials.jsx';
+
 const Container1 = () => {
   const playverseLogo = "/Playverse_logo.png";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -13,8 +10,8 @@ const Container1 = () => {
   };
 
   return (
-    <div className="container-1">
-      {/* Navbar */}
+    <>
+      {/* Navbar - outside container-1 so it's not trapped in its stacking context */}
       <div className="navbar">
         <div className="logo">
           <div className="logo-image">
@@ -103,24 +100,26 @@ const Container1 = () => {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <div className="introduction">
-        <div className="scale-organically">GROW AUTHENTICALLY</div>
+      <div className="container-1">
+        {/* Hero Section */}
+        <div className="introduction">
+          <div className="scale-organically">GROW AUTHENTICALLY</div>
 
-        <h1 className="hero-text">
-          Transforming deep expertise into <br />
-          <span className="highlight">undeniable influence</span>, powered by <br />
-          <span className="line3">world-class organic content.</span>
-        </h1>
+          <h1 className="hero-text">
+            Transforming deep expertise into <br />
+            <span className="highlight">undeniable influence</span>, powered by <br />
+            <span className="line3">world-class organic content.</span>
+          </h1>
 
-        <div className="intro-small">
-          <p>We help Entrepreneurs, influencers, venture capital funds, AI and tech companies scale</p>
-          <p>their organic content.</p>
+          <div className="intro-small">
+            <p>We help Entrepreneurs, influencers, venture capital funds, AI and tech companies scale</p>
+            <p>their organic content.</p>
+          </div>
+
+          <button className="book-call-button" onClick={() => window.open('https://calendly.com/playverse14/30min', '_blank')}>Book a Discovery Call</button>
         </div>
-
-        <button className="book-call-button" onClick={() => window.open('https://calendly.com/playverse14/30min', '_blank')}>Book a Discovery Call</button>
       </div>
-    </div>
+    </>
   );
 };
 

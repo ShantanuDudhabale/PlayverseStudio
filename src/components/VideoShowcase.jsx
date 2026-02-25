@@ -14,15 +14,15 @@ const VideoShowcase = () => {
   const videos = [
     {
       id: 'video-1',
-      src: 'https://res.cloudinary.com/djaigfxun/video/upload/v1769850351/WhatsApp_Video_2026-01-29_at_10.36.53_z1inoh.mp4',
+      src: 'https://dbrjncaosdypvmxfqqng.supabase.co/storage/v1/object/public/Playverse%20Studio/long_video_1%20(1).mp4',
     },
     {
       id: 'video-2',
-      src: 'https://res.cloudinary.com/djaigfxun/video/upload/v1769850476/WhatsApp_Video_2026-01-29_at_10.33.55_jleibt.mp4', // e.g., https://res.cloudinary.com/your-cloud/video/upload/v123/trailer.mp4
+      src: 'https://dbrjncaosdypvmxfqqng.supabase.co/storage/v1/object/public/Playverse%20Studio/long_video_2%20(1).mp4', 
     },
     {
       id: 'video-3',
-      src: 'https://res.cloudinary.com/djaigfxun/video/upload/v1769866340/long_video_3_xkbjig.mp4', // e.g., https://res.cloudinary.com/your-cloud/video/upload/v123/long_video_3.mp4
+      src: 'https://dbrjncaosdypvmxfqqng.supabase.co/storage/v1/object/public/Playverse%20Studio/long_video_3%20(1).mp4', 
     },
   ];
 
