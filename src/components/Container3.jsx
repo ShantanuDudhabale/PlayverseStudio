@@ -10,14 +10,32 @@ const Container3 = () => {
   const [soundEnabled, setSoundEnabled] = useState({}) // Track sound state per video
   const [isPlaying, setIsPlaying] = useState({}) // Track play/pause state per video
   const videoRefs = useRef([])
+  const vimeoPlayers = useRef({})
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Load Vimeo Player API
+  useEffect(() => {
+    if (document.querySelector('script[src="https://player.vimeo.com/api/player.js"]')) return
+    const script = document.createElement('script')
+    script.src = 'https://player.vimeo.com/api/player.js'
+    script.async = true
+    document.body.appendChild(script)
+  }, [])
 
   useEffect(() => {
     const visibleIndexes = getVisibleVideos();
+
+    // Handle regular videos
     videoRefs.current.forEach((video, idx) => {
       if (!video) return;
       if (visibleIndexes.includes(idx)) {
         video.muted = !soundEnabled[idx];
-        // Auto-play visible videos unless explicitly paused
         if (isPlaying[idx] !== false) {
           video.play().catch(() => {});
         }
@@ -26,25 +44,48 @@ const Container3 = () => {
         video.currentTime = 0;
       }
     });
+
+    // Handle Vimeo players
+    Object.keys(vimeoPlayers.current).forEach((idx) => {
+      const player = vimeoPlayers.current[idx]
+      if (!player) return
+      const numIdx = parseInt(idx)
+      if (visibleIndexes.includes(numIdx)) {
+        player.setVolume(soundEnabled[numIdx] ? 1 : 0).catch(() => {})
+        if (isPlaying[numIdx] !== false) {
+          player.play().catch(() => {})
+        }
+      } else {
+        player.pause().catch(() => {})
+      }
+    })
   }, [currentIndex, isMobile, activeCategory, soundEnabled, isPlaying]);
 
   // Replace these with your actual Google Drive file IDs
   const trendingVideos = [
     { 
       id: 1, 
-      video: "https://dbrjncaosdypvmxfqqng.supabase.co/storage/v1/object/public/Playverse%20Studio/short_video_1%20(2).mp4"
+      type: 'vimeo',
+      vimeoId: '1168133089',
+      video: null
     },
     { 
       id: 2, 
-      video: "https://res.cloudinary.com/djaigfxun/video/upload/v1769852082/USA_china_ven_1_hzfgaz.mp4"
+      type: 'vimeo',
+      vimeoId: '1168133089',
+      video: null
     },
     { 
       id: 3, 
-      video: "https://dbrjncaosdypvmxfqqng.supabase.co/storage/v1/object/public/Playverse%20Studio/Short_video_8%20(2)%20(1).mp4"
+      type: 'vimeo',
+      vimeoId: '1168133089',
+      video: null
     },
     { 
       id: 4, 
-      video: "https://res.cloudinary.com/djaigfxun/video/upload/v1769866341/short_video_4_dfhxgx.mp4"
+      type: 'vimeo',
+      vimeoId: '1168566161',
+      video: null
     }
     
   ]
@@ -52,19 +93,27 @@ const Container3 = () => {
   const latestVideos = [
     { 
       id: 5, 
-      video: "https://dbrjncaosdypvmxfqqng.supabase.co/storage/v1/object/public/Playverse%20Studio/nike%20(1)%20(1).mp4"
+      type: 'vimeo',
+      vimeoId: '1168194999',
+      video: null
     },
     { 
       id: 6, 
-      video: "https://dbrjncaosdypvmxfqqng.supabase.co/storage/v1/object/public/Playverse%20Studio/short_video_6%20(1).mp4"
+      type: 'vimeo',
+      vimeoId: '1168133089',
+      video: null
     },
     { 
       id: 7, 
-      video: "https://res.cloudinary.com/djaigfxun/video/upload/v1769868555/WhatsApp_Video_2026-01-31_at_18.12.29_hfdxzs.mp4"
+      type: 'vimeo',
+      vimeoId: '1168571722',
+      video: null
     },
     { 
       id: 8, 
-      video: "https://dbrjncaosdypvmxfqqng.supabase.co/storage/v1/object/public/Playverse%20Studio/short_video_7%20(2)%20(1).mp4"
+      type: 'vimeo',
+      vimeoId: '1168133089',
+      video: null
     }
   ]
 
@@ -86,6 +135,7 @@ const Container3 = () => {
     setTransitionDirection(null)
     setSoundEnabled({})
     setIsPlaying({})
+    vimeoPlayers.current = {}
   }
 
   const toggleSound = (index) => {
@@ -97,15 +147,31 @@ const Container3 = () => {
 
   const togglePlayPause = (index, e) => {
     e.stopPropagation();
-    
-    const video = videoRefs.current[index];
-    if (!video) return;
+    const video = featuredVideos[index]
 
-    if (video.paused) {
-      video.play().catch(() => {});
+    if (video?.type === 'vimeo') {
+      const player = vimeoPlayers.current[index]
+      if (!player) return
+      player.getPaused().then((paused) => {
+        if (paused) {
+          player.play().catch(() => {})
+          setIsPlaying(prev => ({ ...prev, [index]: true }))
+        } else {
+          player.pause().catch(() => {})
+          setIsPlaying(prev => ({ ...prev, [index]: false }))
+        }
+      }).catch(() => {})
+      return
+    }
+
+    const videoEl = videoRefs.current[index];
+    if (!videoEl) return;
+
+    if (videoEl.paused) {
+      videoEl.play().catch(() => {});
       setIsPlaying(prev => ({ ...prev, [index]: true }));
     } else {
-      video.pause();
+      videoEl.pause();
       setIsPlaying(prev => ({ ...prev, [index]: false }));
     }
   }
@@ -128,6 +194,28 @@ const Container3 = () => {
     if (index === visibleIndices[1]) return 'center'
     if (index === visibleIndices[2]) return 'right'
     return 'hidden'
+  }
+
+  // Initialize Vimeo player when iframe is rendered
+  const initVimeoPlayer = (iframeEl, index) => {
+    if (!iframeEl || vimeoPlayers.current[index]) return
+    if (typeof window === 'undefined' || !window.Vimeo) {
+      // Wait for Vimeo script to load
+      const interval = setInterval(() => {
+        if (window.Vimeo) {
+          clearInterval(interval)
+          const player = new window.Vimeo.Player(iframeEl)
+          vimeoPlayers.current[index] = player
+          player.setVolume(0).catch(() => {})
+          player.play().catch(() => {})
+        }
+      }, 200)
+      return
+    }
+    const player = new window.Vimeo.Player(iframeEl)
+    vimeoPlayers.current[index] = player
+    player.setVolume(0).catch(() => {})
+    player.play().catch(() => {})
   }
 
   return (
@@ -197,55 +285,127 @@ const Container3 = () => {
                     className="card-media"
                     onClick={(e) => togglePlayPause(index, e)}
                   >
-                    <video
-                      ref={(el) => videoRefs.current[index] = el}
-                      src={video.video}
-                      loop
-                      muted={!isSoundOn}
-                      autoPlay
-                      playsInline
-                      webkit-playsinline="true"
-                      className="video-element"
-                    />
-                    
-                    {isVisible && !videoIsPlaying && (
-                      <div className="play-pause-overlay">
-                        <div className="play-icon">
-                          <svg 
-                            width="60" 
-                            height="60" 
-                            viewBox="0 0 24 24" 
-                            fill="white"
-                          >
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                          </svg>
+                    {video.type === 'vimeo' ? (
+                      <>
+                        <div style={{ padding: '177.78% 0 0 0', position: 'relative', width: '100%', height: '100%', borderRadius: '24px', overflow: 'hidden', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
+                          <iframe
+                            ref={(el) => {
+                              if (el && isVisible) initVimeoPlayer(el, index)
+                            }}
+                            src={`https://player.vimeo.com/video/${video.vimeoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1&background=1`}
+                            frameBorder="0"
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            style={{
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              width: '100%',
+                              height: '100%',
+                              borderRadius: '24px',
+                              pointerEvents: 'none'
+                            }}
+                            title={`video-${video.id}`}
+                          />
                         </div>
-                      </div>
-                    )}
-                    
-                    {isVisible && !isSoundOn && (
-                      <div 
-                        className="sound-icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleSound(index);
-                        }}
-                      >
-                        <svg 
-                          width="18" 
-                          height="18" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          stroke="white" 
-                          strokeWidth="2"
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                        >
-                          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                          <line x1="23" y1="9" x2="17" y2="15"></line>
-                          <line x1="17" y1="9" x2="23" y2="15"></line>
-                        </svg>
-                      </div>
+
+                        {isVisible && !videoIsPlaying && (
+                          <div className="play-pause-overlay" style={{ zIndex: 6 }}>
+                            <div className="play-icon">
+                              <svg 
+                                width="60" 
+                                height="60" 
+                                viewBox="0 0 24 24" 
+                                fill="white"
+                              >
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                              </svg>
+                            </div>
+                          </div>
+                        )}
+
+                        {isVisible && (
+                          <div 
+                            className="sound-icon"
+                            style={{ zIndex: 10 }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleSound(index);
+                              const player = vimeoPlayers.current[index]
+                              if (player) {
+                                player.setVolume(isSoundOn ? 0 : 1).catch(() => {})
+                              }
+                            }}
+                          >
+                            {isSoundOn ? (
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                              </svg>
+                            ) : (
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <line x1="23" y1="9" x2="17" y2="15"></line>
+                                <line x1="17" y1="9" x2="23" y2="15"></line>
+                              </svg>
+                            )}
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <video
+                          ref={(el) => videoRefs.current[index] = el}
+                          src={video.video}
+                          loop
+                          muted={!isSoundOn}
+                          autoPlay
+                          playsInline
+                          webkit-playsinline="true"
+                          className="video-element"
+                        />
+                        
+                        {isVisible && !videoIsPlaying && (
+                          <div className="play-pause-overlay">
+                            <div className="play-icon">
+                              <svg 
+                                width="60" 
+                                height="60" 
+                                viewBox="0 0 24 24" 
+                                fill="white"
+                              >
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                              </svg>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {isVisible && !isSoundOn && (
+                          <div 
+                            className="sound-icon"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleSound(index);
+                            }}
+                          >
+                            <svg 
+                              width="18" 
+                              height="18" 
+                              viewBox="0 0 24 24" 
+                              fill="none" 
+                              stroke="white" 
+                              strokeWidth="2"
+                              strokeLinecap="round" 
+                              strokeLinejoin="round"
+                            >
+                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                              <line x1="23" y1="9" x2="17" y2="15"></line>
+                              <line x1="17" y1="9" x2="23" y2="15"></line>
+                            </svg>
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>
