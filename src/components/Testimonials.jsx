@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // Import avatar images
 
 const Testimonials = () => {
-  const avatar_yash='/avatar_yash.jpg';  
+  const avatar_yash = '/avatar_yash.jpg';
   const avatar_sarah = '/avatar_sarah.jpg';
   const avatar_alex = '/avatar_alex.jpg';
   const avatar_michael = '/avatar_michael.jpg';
@@ -10,7 +10,8 @@ const Testimonials = () => {
   const avatar_david = '/avatar_david.jpg';
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [activeCard, setActiveCard] = useState(null);
-  const video_1="https://res.cloudinary.com/djaigfxun/video/upload/v1769870691/Testinomials_video_1_eqfkqm.mp4"
+  const video_1 = "https://player.vimeo.com/video/1171153472?autoplay=1&muted=1&loop=1&background=1&quality=auto&dnt=1"
+
   useEffect(() => {
     const handleMouseMove = (e) => {
       setMousePosition({
@@ -196,21 +197,18 @@ const Testimonials = () => {
 
               {testimonial.type === 'video' ? (
                 <div className="video-content">
-                  <video
+                  <iframe
                     src={testimonial.video}
                     className="testimonial-video"
-                    autoPlay
-                    muted
-                    loop
-                    controls
-                    playsInline
-                    preload="auto"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    frameBorder="0"
+                    title={testimonial.name}
                   />
                   <div className="video-info-bar">
                     <div className="author-info">
                       <div className="author-avatar">
-                        <img 
-                          src={testimonial.avatar} 
+                        <img
+                          src={testimonial.avatar}
                           alt={testimonial.name}
                           className="avatar-image"
                         />
@@ -250,8 +248,8 @@ const Testimonials = () => {
                   <div className="testimonial-footer">
                     <div className="author-info">
                       <div className="author-avatar">
-                        <img 
-                          src={testimonial.avatar} 
+                        <img
+                          src={testimonial.avatar}
                           alt={testimonial.name}
                           className="avatar-image"
                         />
